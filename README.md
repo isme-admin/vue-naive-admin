@@ -54,6 +54,9 @@ Vue Naive Admin 提供一套后端代码，技术栈使用 Nestjs + TypeOrm + My
 - 源码-gitee: [isme-nest-serve | gitee](https://gitee.com/isme-admin/isme-nest-serve)
 - 接口文档: [apidoc | isme-nest-serve](https://apifox.com/apidoc/shared-ff4a4d32-c0d1-4caf-b0ee-6abc130f734a)
 
+## 快速上手
+`npm run dev` 之后, 可能你要增加一个MENU item, 但是发现改了前端代码没有任何效果。 为什么? MENU 是通过后端传入的数据来实现的, 这个项目依赖后端实现基本的MENU, 参考: `env.development` 里面 `VITE_PROXY_TARGET = 'https://mock.apifox.com/m1/3776410-0-default/' ` 。 所以, 接下来你需要选择一个后端, 或者自己实现一个后端。 参考: permission table https://github.com/ituserxxx/naive-admin-go/blob/master/init.sql
+
 ## 版权说明
 
 本项目使用 `MIT协议`，默认授权给任何人，被授权人可免费地无限制的使用、复制、修改、合并、发布、发行、再许可、售卖本软件拷贝、并有权向被供应人授予同等的权利，但必须满足以下条件:
