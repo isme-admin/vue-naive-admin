@@ -8,23 +8,26 @@
 
 <template>
   <div>
-    <n-tabs
-      :value="tabStore.activeTab"
-      :closable="tabStore.tabs.length > 1"
-      :style="`--selected-bg: ${appStore.isDark ? '#1b2429' : '#eaf0f1'}`"
-      type="card"
-      @close="(path) => tabStore.removeTab(path)"
-    >
-      <n-tab
-        v-for="item in tabStore.tabs"
-        :key="item.path"
-        :name="item.path"
-        @click="handleItemClick(item.path)"
-        @contextmenu.prevent="handleContextMenu($event, item)"
+    <n-scrollbar x-scrollable>
+      <n-tabs
+        :value="tabStore.activeTab"
+        :closable="tabStore.tabs.length > 1"
+        class="py-10"
+        :style="`--selected-bg: ${appStore.isDark ? '#1b2429' : '#eaf0f1'}`"
+        type="card"
+        @close="(path) => tabStore.removeTab(path)"
       >
-        {{ item.title }}
-      </n-tab>
-    </n-tabs>
+        <n-tab
+          v-for="item in tabStore.tabs"
+          :key="item.path"
+          :name="item.path"
+          @click="handleItemClick(item.path)"
+          @contextmenu.prevent="handleContextMenu($event, item)"
+        >
+          {{ item.title }}
+        </n-tab>
+      </n-tabs>
+    </n-scrollbar>
 
     <ContextMenu
       v-if="contextMenuOption.show"
