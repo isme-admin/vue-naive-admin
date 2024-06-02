@@ -42,6 +42,13 @@
               >
                 img
               </n-button>
+              <n-button
+                dashed
+                type="primary"
+                @click="deleteFile(item.fileId)"
+              >
+                删除
+              </n-button>
             </n-space>
           </n-card>
           <div v-for="i in 4" :key="i" class="w-280" />
@@ -53,16 +60,20 @@
 
 <script setup>
 import { useClipboard } from '@vueuse/core'
+import api from './api'
+
 defineOptions({ name: 'ImgUpload' })
 
 const { copy, copied } = useClipboard()
 
-const imgList = reactive([
-  { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
-  { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
-  { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
-  { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
-])
+const imgList = ref([])
+api.fileList().then(({ data = [] }) => (imgList.value = data))
+// const imgList = reactive([
+//   { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
+//   { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
+//   { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
+//   { url: 'https://cdn.isme.top/images/5c23d52f880511ebb6edd017c2d2eca2.jpg' },
+// ])
 
 watch(copied, (val) => {
   val && $message.success('已复制到剪切板')
@@ -73,6 +84,10 @@ function onBeforeUpload({ file }) {
     $message.error('只能上传图片')
     return false
   }
+  if (file.file.size > 1024 * 1024) {
+    $message.error('文件应小于1M')
+    return false
+  }
   return true
 }
 
@@ -81,12 +96,36 @@ async function handleUpload({ file, onFinish }) {
     $message.error('请选择文件')
   }
 
-  // 模拟上传
-  $message.loading('上传中...')
-  setTimeout(() => {
-    $message.success('上传成功')
-    imgList.push({ fileName: file.name, url: URL.createObjectURL(file.file) })
-    onFinish()
-  }, 1500)
+  // formData
+  const formData = new FormData();
+  formData.append("file", file.file)
+  formData.append("category", "personal")
+  formData.append("fileName", file.name)
+  // 上传
+  $message.loading('上传中...', { key: 'upload' })
+  try {
+    const { data } = await api.upload(formData)
+    setTimeout(() => {
+      $message.success('上传成功', { key: 'upload' })
+      imgList.value.push({
+        fileName: file.name,
+        url: URL.createObjectURL(file.file),
+        fileId: data[0].id
+      })
+      $message.destroy('upload')
+      onFinish()
+    }, 1000)
+  } catch (e) {
+    console.log("文件上传失败", e)
+    $message.destroy('upload')
+  }
+}
+
+async function deleteFile(fileId) {
+  console.log(imgList.value)
+  console.log(fileId)
+  const { data } = await api.deleteFile(fileId)
+  imgList.value = imgList.value.filter(f => f.fileId !== fileId)
+  $message.success('删除成功', { key: 'delete' })
 }
 </script>
