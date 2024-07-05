@@ -40,7 +40,7 @@ export function setupInterceptors(axiosInstance) {
       const code = data?.code ?? status
 
       // 根据code处理对应的操作，并返回处理后的message
-      const message = resolveResError(code, data?.message ?? statusText)
+      const message = resolveResError(code, data?.message ?? statusText, config)
 
       // 需要错误提醒
       !config?.noNeedTip && message && window.$message?.error(message)
@@ -61,7 +61,7 @@ export function setupInterceptors(axiosInstance) {
     const { data, status, config } = error.response
     const code = data?.code ?? status
 
-    const message = resolveResError(code, data?.message ?? error.message)
+    const message = resolveResError(code, data?.message ?? error.message, config)
     /** 需要错误提醒 */
     !config?.noNeedTip && message && window.$message?.error(message)
     return Promise.reject({ code, message, error: error.response?.data || error.response })

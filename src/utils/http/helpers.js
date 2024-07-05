@@ -8,11 +8,15 @@
  **********************************/
 
 import { useAuthStore } from '@/store'
+import { isNullOrUndef } from '../is'
 
 let isConfirming = false
-export function resolveResError(code, message) {
+export function resolveResError(code, message, config = {}) {
   switch (code) {
     case 401:
+      const { noNeedTip401 } = config
+      if (!isNullOrUndef(noNeedTip401) && noNeedTip401)
+         return 
       if (isConfirming)
         return
       isConfirming = true

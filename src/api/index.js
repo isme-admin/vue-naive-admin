@@ -14,7 +14,7 @@ export default {
   // 刷新token
   refreshToken: () => request.get('/auth/refresh/token'),
   // 登出
-  logout: () => request.post('/auth/logout'),
+  logout: () => request.post('/auth/logout', null, { noNeedTip401: true }),
   // 切换当前角色
   switchCurrentRole: role => request.post(`/auth/current-role/switch/${role}`),
   // 获取角色权限
