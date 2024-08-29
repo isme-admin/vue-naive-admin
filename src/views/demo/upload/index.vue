@@ -110,7 +110,7 @@ async function handleUpload({ file, onFinish }) {
       imgList.value.push({
         fileName: file.name,
         url: URL.createObjectURL(file.file),
-        fileId: data[0].id
+        fileId: data[0].fileId
       })
       $message.destroy('upload')
       onFinish()
