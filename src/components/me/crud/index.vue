@@ -70,6 +70,13 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+    /**
+   * @isShowSizePicker 是否显示每页条数选择
+   */
+  isShowSizePicker: {
+    type: Boolean,
+    default: false,
+  },
   scrollX: {
     type: Number,
     default: 1200,
@@ -115,6 +122,16 @@ const pagination = reactive({
   pageSize: 10,
   prefix({ itemCount }) {
     return `共 ${itemCount} 条数据`
+  },
+  pageSizes: [10, 20, 50, 100],
+  showSizePicker: props.isShowSizePicker,
+  onChange: (page) => {
+    pagination.page = page
+  },
+  onUpdatePageSize: (pageSize) => {
+    pagination.pageSize = pageSize
+    pagination.page = 1
+    handleQuery()
   },
 })
 
