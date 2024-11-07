@@ -26,12 +26,12 @@ body {
 
 .fade-slide-enter-from {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateX(-2%);
 }
 
 .fade-slide-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(2%);
 }
 
 /* 自定义滚动条样式 */
@@ -71,4 +71,21 @@ body {
       background: rgb(var(--primary-color));
     }
   }
+}
+
+/* 切换主题的动画效果 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root),
+.dark::view-transition-old(root) {
+  z-index: 9999;
 }

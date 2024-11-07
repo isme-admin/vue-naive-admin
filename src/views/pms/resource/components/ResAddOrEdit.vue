@@ -99,8 +99,12 @@
             <QuestionLabel label="显示状态" content="控制是否在菜单栏显示，不影响路由注册" />
           </template>
           <n-switch v-model:value="modalForm.show">
-            <template #checked>显示</template>
-            <template #unchecked>隐藏</template>
+            <template #checked>
+              显示
+            </template>
+            <template #unchecked>
+              隐藏
+            </template>
           </n-switch>
         </n-form-item-gi>
         <n-form-item-gi :span="12" path="enable">
@@ -111,8 +115,12 @@
             />
           </template>
           <n-switch v-model:value="modalForm.enable">
-            <template #checked>启用</template>
-            <template #unchecked>禁用</template>
+            <template #checked>
+              启用
+            </template>
+            <template #unchecked>
+              禁用
+            </template>
           </n-switch>
         </n-form-item-gi>
         <n-form-item-gi v-if="modalForm.type === 'MENU'" :span="12" path="keepAlive">
@@ -123,8 +131,12 @@
             />
           </template>
           <n-switch v-model:value="modalForm.keepAlive">
-            <template #checked>是</template>
-            <template #unchecked>否</template>
+            <template #checked>
+              是
+            </template>
+            <template #unchecked>
+              否
+            </template>
           </n-switch>
         </n-form-item-gi>
         <n-form-item-gi
@@ -148,11 +160,11 @@
 
 <script setup>
 import { MeModal } from '@/components'
-import QuestionLabel from './QuestionLabel.vue'
 import { useForm, useModal } from '@/composables'
-import api from '../api'
-import pagePathes from 'isme:page-pathes'
 import icons from 'isme:icons'
+import pagePathes from 'isme:page-pathes'
+import api from '../api'
+import QuestionLabel from './QuestionLabel.vue'
 
 const props = defineProps({
   menus: {
@@ -165,10 +177,10 @@ const emit = defineEmits(['refresh'])
 const menuOptions = computed(() => {
   return [{ name: '根菜单', id: '', children: props.menus || [] }]
 })
-const componentOptions = pagePathes.map((path) => ({ label: path, value: path }))
-const iconOptions = icons.map((item) => ({
+const componentOptions = pagePathes.map(path => ({ label: path, value: path }))
+const iconOptions = icons.map(item => ({
   label: () =>
-    h('span', { class: 'flex items-center' }, [h('i', { class: item + ' text-18 mr-8' }), item]),
+    h('span', { class: 'flex items-center' }, [h('i', { class: `${item} text-18 mr-8` }), item]),
   value: item,
 }))
 const layoutOptions = [
@@ -203,17 +215,20 @@ async function onSave() {
   okLoading.value = true
   try {
     let newFormData
-    if (!modalForm.value.parentId) modalForm.value.parentId = null
+    if (!modalForm.value.parentId)
+      modalForm.value.parentId = null
     if (modalAction.value === 'add') {
       const res = await api.addPermission(modalForm.value)
       newFormData = res.data
-    } else if (modalAction.value === 'edit') {
+    }
+    else if (modalAction.value === 'edit') {
       await api.savePermission(modalForm.value.id, modalForm.value)
     }
     okLoading.value = false
     $message.success('保存成功')
     emit('refresh', modalAction.value === 'add' ? newFormData : modalForm.value)
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error)
     okLoading.value = false
     return false

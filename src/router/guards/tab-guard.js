@@ -12,7 +12,8 @@ export const EXCLUDE_TAB = ['/404', '/403', '/login']
 
 export function createTabGuard(router) {
   router.afterEach((to) => {
-    if (EXCLUDE_TAB.includes(to.path)) return
+    if (EXCLUDE_TAB.includes(to.path))
+      return
     const tabStore = useTabStore()
     const { name, fullPath: path } = to
     const title = to.meta?.title

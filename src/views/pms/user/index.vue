@@ -9,10 +9,10 @@
 <template>
   <CommonPage>
     <template #action>
-      <n-button v-permission="'AddUser'" type="primary" @click="handleAdd()">
+      <NButton v-permission="'AddUser'" type="primary" @click="handleAdd()">
         <i class="i-material-symbols:add mr-4 text-18" />
         创建新用户
-      </n-button>
+      </NButton>
     </template>
 
     <MeCrud
@@ -92,10 +92,14 @@
           />
         </n-form-item>
         <n-form-item v-if="modalAction === 'add'" label="状态" path="enable">
-          <n-switch v-model:value="modalForm.enable">
-            <template #checked>启用</template>
-            <template #unchecked>停用</template>
-          </n-switch>
+          <NSwitch v-model:value="modalForm.enable">
+            <template #checked>
+              启用
+            </template>
+            <template #unchecked>
+              停用
+            </template>
+          </NSwitch>
         </n-form-item>
       </n-form>
       <n-alert v-if="modalAction === 'add'" type="warning" closable>
@@ -106,10 +110,10 @@
 </template>
 
 <script setup>
-import { NAvatar, NButton, NSwitch, NTag } from 'naive-ui'
-import { formatDateTime } from '@/utils'
-import { MeCrud, MeQueryItem, MeModal } from '@/components'
+import { MeCrud, MeModal, MeQueryItem } from '@/components'
 import { useCrud } from '@/composables'
+import { formatDateTime } from '@/utils'
+import { NAvatar, NButton, NSwitch, NTag } from 'naive-ui'
 import api from './api'
 
 defineOptions({ name: 'UserMgt' })
@@ -128,6 +132,24 @@ const genders = [
 ]
 const roles = ref([])
 api.getAllRoles().then(({ data = [] }) => (roles.value = data))
+
+const {
+  modalRef,
+  modalFormRef,
+  modalForm,
+  modalAction,
+  handleAdd,
+  handleDelete,
+  handleOpen,
+  handleSave,
+} = useCrud({
+  name: '用户',
+  initForm: { enable: true },
+  doCreate: api.create,
+  doDelete: api.delete,
+  doUpdate: api.update,
+  refresh: () => $table.value?.handleSearch(),
+})
 
 const columns = [
   {
@@ -152,8 +174,8 @@ const columns = [
           h(
             NTag,
             { type: 'success', style: index > 0 ? 'margin-left: 8px;' : '' },
-            { default: () => item.name }
-          )
+            { default: () => item.name },
+          ),
         )
       }
       return '暂无角色'
@@ -163,7 +185,7 @@ const columns = [
     title: '性别',
     key: 'gender',
     width: 80,
-    render: ({ gender }) => genders.find((item) => gender === item.value)?.label ?? '',
+    render: ({ gender }) => genders.find(item => gender === item.value)?.label ?? '',
   },
   { title: '邮箱', key: 'email', width: 150, ellipsis: { tooltip: true } },
   {
@@ -171,14 +193,14 @@ const columns = [
     key: 'createDate',
     width: 180,
     render(row) {
-      return h('span', formatDateTime(row['createTime']))
+      return h('span', formatDateTime(row.createTime))
     },
   },
   {
     title: '状态',
     key: 'enable',
     width: 120,
-    render: (row) =>
+    render: row =>
       h(
         NSwitch,
         {
@@ -191,7 +213,7 @@ const columns = [
         {
           checked: () => '启用',
           unchecked: () => '停用',
-        }
+        },
       ),
   },
   {
@@ -214,7 +236,7 @@ const columns = [
           {
             default: () => '分配角色',
             icon: () => h('i', { class: 'i-carbon:user-role text-14' }),
-          }
+          },
         ),
         h(
           NButton,
@@ -227,7 +249,7 @@ const columns = [
           {
             default: () => '重置密码',
             icon: () => h('i', { class: 'i-radix-icons:reset text-14' }),
-          }
+          },
         ),
 
         h(
@@ -241,7 +263,7 @@ const columns = [
           {
             default: () => '删除',
             icon: () => h('i', { class: 'i-material-symbols:delete-outline text-14' }),
-          }
+          },
         ),
       ]
     },
@@ -255,13 +277,15 @@ async function handleEnable(row) {
     row.enableLoading = false
     $message.success('操作成功')
     $table.value?.handleSearch()
-  } catch (error) {
+  }
+  catch (error) {
+    console.error(error)
     row.enableLoading = false
   }
 }
 
 function handleOpenRolesSet(row) {
-  const roleIds = row.roles.map((item) => item.id)
+  const roleIds = row.roles.map(item => item.id)
   handleOpen({
     action: 'setRole',
     title: '分配角色',
@@ -270,31 +294,14 @@ function handleOpenRolesSet(row) {
   })
 }
 
-const {
-  modalRef,
-  modalFormRef,
-  modalForm,
-  modalAction,
-  handleAdd,
-  handleDelete,
-  handleOpen,
-  handleSave,
-} = useCrud({
-  name: '用户',
-  initForm: { enable: true },
-  doCreate: api.create,
-  doDelete: api.delete,
-  doUpdate: api.update,
-  refresh: () => $table.value?.handleSearch(),
-})
-
 function onSave() {
   if (modalAction.value === 'setRole') {
     return handleSave({
       api: () => api.update(modalForm.value),
       cb: () => $message.success('分配成功'),
     })
-  } else if (modalAction.value === 'reset') {
+  }
+  else if (modalAction.value === 'reset') {
     return handleSave({
       api: () => api.resetPwd(modalForm.value.id, modalForm.value),
       cb: () => $message.success('密码重置成功'),

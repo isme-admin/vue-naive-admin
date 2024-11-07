@@ -8,10 +8,10 @@
 
 <template>
   <div class="flex items-center">
-    <label v-if="label || label === 0" class="flex-shrink-0" :style="{ width: labelWidth + 'px' }">
+    <label v-if="label || label === 0" class="flex-shrink-0" :style="{ width: `${labelWidth}px` }">
       {{ label }}
     </label>
-    <div :style="{ width: contentWidth + 'px' }" class="flex-shrink-0">
+    <div :style="{ width: `${contentWidth}px` }" class="flex-shrink-0">
       <slot />
     </div>
   </div>

@@ -9,10 +9,10 @@
 <template>
   <CommonPage>
     <template #action>
-      <n-button type="primary" @click="handleAdd()">
+      <NButton type="primary" @click="handleAdd()">
         <i class="i-material-symbols:add mr-4 text-18" />
         新增角色
-      </n-button>
+      </NButton>
     </template>
 
     <MeCrud
@@ -74,17 +74,20 @@
             :data="permissionTree"
             :checked-keys="modalForm.permissionIds"
             :on-update:checked-keys="(keys) => (modalForm.permissionIds = keys)"
-            default-expand-all
-            checkable
-            check-on-click
+
+            default-expand-all checkable check-on-click
             class="cus-scroll max-h-200 w-full"
           />
         </n-form-item>
         <n-form-item label="状态" path="enable">
-          <n-switch v-model:value="modalForm.enable">
-            <template #checked>启用</template>
-            <template #unchecked>停用</template>
-          </n-switch>
+          <NSwitch v-model:value="modalForm.enable">
+            <template #checked>
+              启用
+            </template>
+            <template #unchecked>
+              停用
+            </template>
+          </NSwitch>
         </n-form-item>
       </n-form>
     </MeModal>
@@ -92,9 +95,9 @@
 </template>
 
 <script setup>
-import { NButton, NSwitch } from 'naive-ui'
-import { MeCrud, MeQueryItem, MeModal } from '@/components'
+import { MeCrud, MeModal, MeQueryItem } from '@/components'
 import { useCrud } from '@/composables'
+import { NButton, NSwitch } from 'naive-ui'
 import api from './api'
 
 defineOptions({ name: 'RoleMgt' })
@@ -109,13 +112,23 @@ onMounted(() => {
   $table.value?.handleSearch()
 })
 
+const { modalRef, modalFormRef, modalAction, modalForm, handleAdd, handleDelete, handleEdit }
+  = useCrud({
+    name: '角色',
+    doCreate: api.create,
+    doDelete: api.delete,
+    doUpdate: api.update,
+    initForm: { enable: true },
+    refresh: (_, keepCurrentPage) => $table.value?.handleSearch(keepCurrentPage),
+  })
+
 const columns = [
   { title: '角色名', key: 'name' },
   { title: '角色编码', key: 'code' },
   {
     title: '状态',
     key: 'enable',
-    render: (row) =>
+    render: row =>
       h(
         NSwitch,
         {
@@ -129,7 +142,7 @@ const columns = [
         {
           checked: () => '启用',
           unchecked: () => '停用',
-        }
+        },
       ),
   },
   {
@@ -152,7 +165,7 @@ const columns = [
           {
             default: () => '分配用户',
             icon: () => h('i', { class: 'i-fe:user-plus text-14' }),
-          }
+          },
         ),
         h(
           NButton,
@@ -166,7 +179,7 @@ const columns = [
           {
             default: () => '编辑',
             icon: () => h('i', { class: 'i-material-symbols:edit-outline text-14' }),
-          }
+          },
         ),
 
         h(
@@ -181,7 +194,7 @@ const columns = [
           {
             default: () => '删除',
             icon: () => h('i', { class: 'i-material-symbols:delete-outline text-14' }),
-          }
+          },
         ),
       ]
     },
@@ -195,20 +208,12 @@ async function handleEnable(row) {
     row.enableLoading = false
     $message.success('操作成功')
     $table.value?.handleSearch()
-  } catch (error) {
+  }
+  catch (error) {
+    console.error(error)
     row.enableLoading = false
   }
 }
-
-const { modalRef, modalFormRef, modalAction, modalForm, handleAdd, handleDelete, handleEdit } =
-  useCrud({
-    name: '角色',
-    doCreate: api.create,
-    doDelete: api.delete,
-    doUpdate: api.update,
-    initForm: { enable: true },
-    refresh: () => $table.value?.handleSearch(),
-  })
 
 const permissionTree = ref([])
 api.getAllPermissionTree().then(({ data = [] }) => (permissionTree.value = data))

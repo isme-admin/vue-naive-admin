@@ -10,10 +10,11 @@
 import { useAuthStore } from '@/store'
 
 let isConfirming = false
-export function resolveResError(code, message) {
+export function resolveResError(code, message, needTip = true) {
   switch (code) {
     case 401:
-      if (isConfirming) return
+      if (isConfirming || !needTip)
+        return
       isConfirming = true
       $dialog.confirm({
         title: '提示',
@@ -31,7 +32,8 @@ export function resolveResError(code, message) {
       return false
     case 11007:
     case 11008:
-      if (isConfirming) return
+      if (isConfirming || !needTip)
+        return
       isConfirming = true
       $dialog.confirm({
         title: '提示',
@@ -60,5 +62,6 @@ export function resolveResError(code, message) {
       message = message ?? `【${code}】: 未知异常!`
       break
   }
+  needTip && window.$message?.error(message)
   return message
 }

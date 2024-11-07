@@ -8,6 +8,7 @@
 </p>
 
 ## 简介
+
 Vue Naive Admin 是一款极简风格的后台管理模板，包含前后端解决方案，前端使用 Vite + Vue3 + Pinia + Unocss，后端使用 Nestjs + TypeOrm + MySql，简单易用，赏心悦目，历经十几次重构和细节打磨，诚意满满！！
 
 ## 设计理念
@@ -48,17 +49,25 @@ Vue Naive Admin 2022年2月开始开源，从 1.0 到现在的 2.0，一直秉�
 
 Vue Naive Admin 提供一套后端代码，技术栈使用 Nestjs + TypeOrm + MySql，内置 JWT、RABC及模板所需的一些基础接口。
 
-*后续可能会提供 Java 版和 Go 版的，但由于精力有限，欢迎感兴趣的大佬基于前端提供对接好的后端项目，当然，并不局限于 Java 和 Go，已对接的后端项目会展示到仓库的 README 和 官方文档中*
-
 - 源码-github: [isme-nest-serve | github](https://github.com/zclzone/isme-nest-serve)
 - 源码-gitee: [isme-nest-serve | gitee](https://gitee.com/isme-admin/isme-nest-serve)
 
-
 ## 文档
-  
-- 项目文档: [docs | vue-naive-admin](https://docs.isme.top/web/#/624306705/188522224)
+
+- 项目文档: [docs | vue-naive-admin](https://isme.top)
 - 接口文档: [apidoc | isme-nest-serve](https://apifox.com/apidoc/shared-ff4a4d32-c0d1-4caf-b0ee-6abc130f734a)
 
+> 注：有个比较常见的问题，就是如何添加菜单和修改菜单，由于项目是由后端控制菜单资源的，所以需要对接后端后在资源管理功能对菜单进行增删改，然后在角色管理功能给对应角色进行授权。具体如何对接后端，请参考 [项目文档](https://isme.top)。当然，可能有些菜单你不想通过权限控制，那么你可以在 `/src/settings.js` 文件添加 basePermissions，只需对齐菜单资源的结构即可，结构可以参照 [接口文档](https://apifox.com/apidoc/shared-ff4a4d32-c0d1-4caf-b0ee-6abc130f734a/api-134536978)。
+
+## 使用这个模板开始你的项目
+
+[使用这个模板创建Github仓库](https://github.com/zclzone/vue-naive-admin/generate).
+
+或者使用 `degit` 克隆此仓库，这样将没有任何历史提交记录：
+
+```cmd
+npx degit zclzone/vue-naive-admin
+```
 
 ## 版权说明
 
@@ -72,10 +81,8 @@ Vue Naive Admin 提供一套后端代码，技术栈使用 Nestjs + TypeOrm + My
 
 - [isme-java-serve](https://github.com/DHBin/isme-java-serve): 一个轻量级的Java后端服务，基于SpringBoot、MybatisPlus、SaToken、MapStruct等实现，已对接 Vue Naive Admin 2.0。
 - [naive-admin-go](https://github.com/ituserxxx/naive-admin-go): 一个 Go 后端服务，基于 gin、gorm、mysql、jwt和session，已对接 Vue Naive Admin 2.0。
+- [isme-java](https://github.com/AllenDengMs/isme-java): 一个轻量且完成度高的Java后端服务，基于Springboot 3 + JDK21，层次结构严谨，注释齐全，避免过度封装，代码可读性度高，依赖最简化，上手成本低，已集成 账号管理、权限管理、API鉴权、消息国际化等功能。
 
-## 入群交流
+## 联系作者 or 进交流群
 
-添加微信，拉你进群
-
-![](https://static.isme.top/image/coder_wx.jpg)
-
+[https://www.isme.top/contact.html](https://www.isme.top/contact.html)

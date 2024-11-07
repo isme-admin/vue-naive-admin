@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { UserAvatar, MenuCollapse, SideLogo, SideMenu } from '@/layouts/components'
+import { MenuCollapse, SideLogo, SideMenu, UserAvatar } from '@/layouts/components'
 import { useAppStore } from '@/store'
 
 const appStore = useAppStore()

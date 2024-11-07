@@ -12,10 +12,10 @@
       <h3>菜单</h3>
       <div class="flex">
         <n-input v-model:value="pattern" placeholder="搜索" clearable />
-        <n-button class="ml-12" type="primary" @click="handleAdd()">
+        <NButton class="ml-12" type="primary" @click="handleAdd()">
           <i class="i-material-symbols:add mr-4 text-14" />
           新增
-        </n-button>
+        </NButton>
       </div>
 
       <n-tree
@@ -28,8 +28,8 @@
         :on-update:selected-keys="onSelect"
         key-field="code"
         label-field="name"
-        block-line
-        default-expand-all
+
+        block-line default-expand-all
       />
     </n-space>
 
@@ -38,10 +38,10 @@
 </template>
 
 <script setup>
-import { withModifiers } from 'vue'
-import ResAddOrEdit from './ResAddOrEdit.vue'
 import { NButton } from 'naive-ui'
+import { withModifiers } from 'vue'
 import api from '../api'
+import ResAddOrEdit from './ResAddOrEdit.vue'
 
 defineProps({
   treeData: {
@@ -86,7 +86,7 @@ function renderSuffix({ option }) {
         size: 'tiny',
         onClick: withModifiers(() => handleAdd({ parentId: option.id }), ['stop']),
       },
-      { default: () => '新增' }
+      { default: () => '新增' },
     ),
 
     h(
@@ -98,7 +98,7 @@ function renderSuffix({ option }) {
         style: 'margin-left: 12px;',
         onClick: withModifiers(() => handleDelete(option), ['stop']),
       },
-      { default: () => '删除' }
+      { default: () => '删除' },
     ),
   ]
 }
@@ -113,7 +113,9 @@ function handleDelete(item) {
         $message.success('删除成功', { key: 'deleteMenu' })
         emit('refresh')
         emit('update:currentMenu', null)
-      } catch (error) {
+      }
+      catch (error) {
+        console.error(error)
         $message.destroy('deleteMenu')
       }
     },

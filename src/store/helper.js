@@ -1,5 +1,5 @@
-import { basePermissions } from '@/settings'
 import api from '@/api'
+import { basePermissions } from '@/settings'
 
 export async function getUserInfo() {
   const res = await api.getUser()
@@ -22,7 +22,8 @@ export async function getPermissions() {
   try {
     const res = await api.getRolePermissions()
     asyncPermissions = res?.data || []
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error)
   }
   return basePermissions.concat(asyncPermissions)

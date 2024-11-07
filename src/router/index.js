@@ -6,9 +6,9 @@
  * Copyright © 2023 Ronnie Zhang(大脸怪) | https://isme.top
  **********************************/
 
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import { setupRouterGuards } from './guards'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { basicRoutes } from './basic-routes'
+import { setupRouterGuards } from './guards'
 
 export const router = createRouter({
   history:

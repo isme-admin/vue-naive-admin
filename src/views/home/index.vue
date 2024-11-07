@@ -20,8 +20,12 @@
           </div>
         </div>
 
-        <p class="mt-28 text-14 opacity-60">一个人几乎可以在任何他怀有无限热忱的事情上成功。</p>
-        <p class="mt-12 text-right text-12 opacity-40">—— 查尔斯·史考伯</p>
+        <p class="mt-28 text-14 opacity-60">
+          一个人几乎可以在任何他怀有无限热忱的事情上成功。
+        </p>
+        <p class="mt-12 text-right text-12 opacity-40">
+          —— 查尔斯·史考伯
+        </p>
       </n-card>
       <n-card class="ml-12 w-70%" title="✨ 欢迎使用 Vue Naive Admin 2.0">
         <template #header-extra>
@@ -45,7 +49,7 @@
             type="primary"
             ghost
             tag="a"
-            href="https://docs.isme.top/web/#/624306705/188522224"
+            href="https://isme.top"
             target="__blank"
           >
             开发文档
@@ -157,9 +161,9 @@
 
 <script setup>
 import { useUserStore } from '@/store'
-import * as echarts from 'echarts/core'
-import { TooltipComponent, GridComponent, LegendComponent } from 'echarts/components'
 import { BarChart, LineChart, PieChart } from 'echarts/charts'
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components'
+import * as echarts from 'echarts/core'
 import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import VChart from 'vue-echarts'

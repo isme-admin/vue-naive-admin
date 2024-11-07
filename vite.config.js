@@ -6,27 +6,27 @@
  * Copyright © 2023 Ronnie Zhang(大脸怪) | https://isme.top
  **********************************/
 
-import path from 'path'
-import { defineConfig, loadEnv } from 'vite'
+import path from 'node:path'
 import Vue from '@vitejs/plugin-vue'
-import VueDevTools from 'vite-plugin-vue-devtools'
+import VueJsx from '@vitejs/plugin-vue-jsx'
 import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
-import simpleHtmlPlugin from 'vite-plugin-simple-html'
+import Components from 'unplugin-vue-components/vite'
+import { defineConfig, loadEnv } from 'vite'
 import removeNoMatch from 'vite-plugin-router-warn'
-import { pluginPagePathes, pluginIcons } from './build/plugin-isme'
+import VueDevTools from 'vite-plugin-vue-devtools'
+import { pluginIcons, pluginPagePathes } from './build/plugin-isme'
 
-export default defineConfig(({ command, mode }) => {
-  const isBuild = command === 'build'
+export default defineConfig(({ mode }) => {
   const viteEnv = loadEnv(mode, process.cwd())
-  const { VITE_TITLE, VITE_PUBLIC_PATH, VITE_PROXY_TARGET } = viteEnv
+  const { VITE_PUBLIC_PATH, VITE_PROXY_TARGET } = viteEnv
 
   return {
     base: VITE_PUBLIC_PATH || '/',
     plugins: [
       Vue(),
+      VueJsx(),
       VueDevTools(),
       Unocss(),
       AutoImport({
@@ -36,14 +36,6 @@ export default defineConfig(({ command, mode }) => {
       Components({
         resolvers: [NaiveUiResolver()],
         dts: false,
-      }),
-      simpleHtmlPlugin({
-        minify: isBuild,
-        inject: {
-          data: {
-            title: VITE_TITLE,
-          },
-        },
       }),
       // 自定义插件，用于生成页面文件的path，并添加到虚拟模块
       pluginPagePathes(),
@@ -66,7 +58,7 @@ export default defineConfig(({ command, mode }) => {
         '/api': {
           target: VITE_PROXY_TARGET,
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp('^/api'), ''),
+          rewrite: path => path.replace(/^\/api/, ''),
           secure: false,
           configure: (proxy, options) => {
             // 配置此项可在响应头中看到请求的真实地址

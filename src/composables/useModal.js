@@ -6,7 +6,7 @@
  * Copyright © 2023 Ronnie Zhang(大脸怪) | https://isme.top
  **********************************/
 
-export const useModal = () => {
+export function useModal() {
   const modalRef = ref(null)
   const okLoading = computed({
     get() {

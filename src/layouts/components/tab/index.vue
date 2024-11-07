@@ -36,8 +36,8 @@
 </template>
 
 <script setup>
-import ContextMenu from './ContextMenu.vue'
 import { useTabStore } from '@/store'
+import ContextMenu from './ContextMenu.vue'
 
 const router = useRouter()
 const tabStore = useTabStore()
@@ -49,7 +49,7 @@ const contextMenuOption = reactive({
   currentPath: '',
 })
 
-const handleItemClick = (path) => {
+function handleItemClick(path) {
   tabStore.setActiveTab(path)
   router.push(path)
 }
@@ -74,7 +74,7 @@ async function handleContextMenu(e, tagItem) {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 :deep(.n-tabs) {
   .n-tabs-tab {
     padding-left: 16px;

@@ -9,10 +9,12 @@
 <template>
   <AppCard v-if="$slots.default" bordered bg="#fafafc dark:black" class="mb-30 min-h-60 rounded-4">
     <form class="flex justify-between p-16" @submit.prevent="handleSearch()">
-      <n-space wrap :size="[32, 16]">
-        <slot />
-      </n-space>
-      <div class="flex-shrink-0">
+      <n-scrollbar x-scrollable>
+        <n-space :wrap="!expand || isExpanded" :size="[32, 16]" class="p-10">
+          <slot />
+        </n-space>
+      </n-scrollbar>
+      <div class="flex-shrink-0 p-10">
         <n-button ghost type="primary" @click="handleReset">
           <i class="i-fe:rotate-ccw mr-4" />
           重置
@@ -21,11 +23,22 @@
           <i class="i-fe:search mr-4" />
           搜索
         </n-button>
+
+        <template v-if="expand">
+          <n-button v-if="!isExpanded" type="primary" text @click="toggleExpand">
+            <i class="i-fe:chevrons-down ml-4" />
+            展开
+          </n-button>
+          <n-button v-else text type="primary" @click="toggleExpand">
+            <i class="i-fe:chevrons-up ml-4" />
+            收起
+          </n-button>
+        </template>
       </div>
     </form>
   </AppCard>
 
-  <n-data-table
+  <NDataTable
     :remote="remote"
     :loading="loading"
     :scroll-x="scrollX"
@@ -51,7 +64,7 @@ const props = defineProps({
     default: true,
   },
   /**
-   * @remote 是否分页
+   * @isPagination 是否分页
    */
   isPagination: {
     type: Boolean,
@@ -78,10 +91,10 @@ const props = defineProps({
   },
   /**
    * ! 约定接口入参出参
-   * * 分页模式需约定分页接口入参
+   * 分页模式需约定分页接口入参
    *    @pageSize 分页参数：一页展示多少条，默认10
    *    @pageNo   分页参数：页码，默认1
-   * * 需约定接口出参
+   * 需约定接口出参
    *    @pageData 分页模式必须,非分页模式如果没有pageData则取上一层data
    *    @total    分页模式必须，非分页模式如果没有total则取上一层data.length
    */
@@ -89,13 +102,28 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  /** 是否支持展开 */
+  expand: Boolean,
 })
 
 const emit = defineEmits(['update:queryItems', 'onChecked', 'onDataChange'])
 const loading = ref(false)
 const initQuery = { ...props.queryItems }
 const tableData = ref([])
-const pagination = reactive({ page: 1, pageSize: 10 })
+const pagination = reactive({
+  page: 1,
+  pageSize: 10,
+  prefix({ itemCount }) {
+    return `共 ${itemCount} 条数据`
+  },
+})
+
+// 是否展开
+const isExpanded = ref(false)
+
+function toggleExpand() {
+  isExpanded.value = !isExpanded.value
+}
 
 async function handleQuery() {
   try {
@@ -111,17 +139,29 @@ async function handleQuery() {
     })
     tableData.value = data?.pageData || data
     pagination.itemCount = data.total ?? data.length
-  } catch (error) {
+    if (pagination.itemCount && !tableData.value.length && pagination.page > 1) {
+      // 如果当前页数据为空，且总条数不为0，则返回上一页数据
+      onPageChange(pagination.page - 1)
+    }
+  }
+  catch (error) {
+    console.error(error)
     tableData.value = []
     pagination.itemCount = 0
-  } finally {
+  }
+  finally {
     emit('onDataChange', tableData.value)
     loading.value = false
   }
 }
-function handleSearch() {
-  pagination.page = 1
-  handleQuery()
+
+function handleSearch(keepCurrentPage = false) {
+  if (keepCurrentPage || !props.remote) {
+    handleQuery()
+  }
+  else {
+    onPageChange(1)
+  }
 }
 async function handleReset() {
   const queryItems = { ...props.queryItems }
@@ -140,16 +180,17 @@ function onPageChange(currentPage) {
   }
 }
 function onChecked(rowKeys) {
-  if (props.columns.some((item) => item.type === 'selection')) {
+  if (props.columns.some(item => item.type === 'selection')) {
     emit('onChecked', rowKeys)
   }
 }
 function handleExport(columns = props.columns, data = tableData.value) {
-  if (!data?.length) return $message.warning('没有数据')
-  const columnsData = columns.filter((item) => !!item.title && !item.hideInExcel)
-  const thKeys = columnsData.map((item) => item.key)
-  const thData = columnsData.map((item) => item.title)
-  const trData = data.map((item) => thKeys.map((key) => item[key]))
+  if (!data?.length)
+    return $message.warning('没有数据')
+  const columnsData = columns.filter(item => !!item.title && !item.hideInExcel)
+  const thKeys = columnsData.map(item => item.key)
+  const thData = columnsData.map(item => item.title)
+  const trData = data.map(item => thKeys.map(key => item[key]))
   const sheet = utils.aoa_to_sheet([thData, ...trData])
   const workBook = utils.book_new()
   utils.book_append_sheet(workBook, sheet, '数据报表')

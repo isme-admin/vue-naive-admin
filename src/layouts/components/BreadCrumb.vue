@@ -33,6 +33,7 @@
 
 <script setup>
 import { usePermissionStore } from '@/store'
+
 const router = useRouter()
 const route = useRoute()
 const permissionStore = usePermissionStore()
@@ -43,7 +44,7 @@ watch(
   (v) => {
     breadItems.value = findMatchs(permissionStore.permissions, v)
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 function findMatchs(tree, code, parents = []) {
@@ -69,8 +70,8 @@ function handleItemClick(item) {
 
 function getDropOptions(list = []) {
   return list
-    .filter((item) => item.show)
-    .map((child) => ({
+    .filter(item => item.show)
+    .map(child => ({
       label: child.name,
       key: child.code,
       icon: () => h('i', { class: child.icon }),

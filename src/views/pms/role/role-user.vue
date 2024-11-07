@@ -9,15 +9,17 @@
 <template>
   <CommonPage back>
     <template #title-suffix>
-      <n-tag class="ml-12" type="warning">{{ route.query.roleName }}</n-tag>
+      <NTag class="ml-12" type="warning">
+        {{ route.query.roleName }}
+      </NTag>
     </template>
     <template #action>
       <div class="flex items-center">
-        <n-button :disabled="!userIds.length" type="error" @click="handleBatchRemove()">
+        <NButton :disabled="!userIds.length" type="error" @click="handleBatchRemove()">
           <i v-if="userIds.length" class="i-material-symbols:delete-outline mr-4 text-18" />
           批量取消授权
-        </n-button>
-        <n-button
+        </NButton>
+        <NButton
           class="ml-12"
           :disabled="!userIds.length"
           type="primary"
@@ -25,7 +27,7 @@
         >
           <i v-if="userIds.length" class="i-line-md:confirm-circle mr-4 text-18" />
           批量授权
-        </n-button>
+        </NButton>
       </div>
     </template>
 
@@ -65,11 +67,11 @@
 </template>
 
 <script setup>
-import { NAvatar, NButton, NSwitch, NTag } from 'naive-ui'
 import { MeCrud, MeQueryItem } from '@/components'
 import { formatDateTime } from '@/utils'
-import api from './api'
+import { NAvatar, NButton, NSwitch, NTag } from 'naive-ui'
 import { h } from 'vue'
+import api from './api'
 
 defineOptions({ name: 'RoleUser' })
 const route = useRoute()
@@ -111,8 +113,8 @@ const columns = [
           h(
             NTag,
             { type: 'success', style: index > 0 ? 'margin-left: 8px;' : '' },
-            { default: () => item.name }
-          )
+            { default: () => item.name },
+          ),
         )
       }
       return '暂无角色'
@@ -122,14 +124,14 @@ const columns = [
     title: '性别',
     key: 'gender',
     width: 80,
-    render: ({ gender }) => genders.find((item) => gender === item.value)?.label ?? '',
+    render: ({ gender }) => genders.find(item => gender === item.value)?.label ?? '',
   },
   {
     title: '创建时间',
     key: 'createDate',
     width: 180,
     render(row) {
-      return h('span', formatDateTime(row['createTime']))
+      return h('span', formatDateTime(row.createTime))
     },
   },
   {
@@ -137,7 +139,7 @@ const columns = [
     key: 'enable',
     width: 100,
 
-    render: (row) =>
+    render: row =>
       h(
         NSwitch,
         {
@@ -148,7 +150,7 @@ const columns = [
         {
           checked: () => '启用',
           unchecked: () => '停用',
-        }
+        },
       ),
   },
   {
@@ -159,33 +161,33 @@ const columns = [
     fixed: 'right',
     hideInExcel: true,
     render(row) {
-      return row.roles?.some((item) => item.id === +route.params.roleId)
+      return row.roles?.some(item => item.id === +route.params.roleId)
         ? h(
-            NButton,
-            {
-              size: 'small',
-              type: 'error',
-              secondary: true,
-              onClick: () => handleBatchRemove([row.id]),
-            },
-            {
-              default: () => '取消授权',
-              icon: () => h('i', { class: 'i-material-symbols:delete-outline text-14' }),
-            }
-          )
+          NButton,
+          {
+            size: 'small',
+            type: 'error',
+            secondary: true,
+            onClick: () => handleBatchRemove([row.id]),
+          },
+          {
+            default: () => '取消授权',
+            icon: () => h('i', { class: 'i-material-symbols:delete-outline text-14' }),
+          },
+        )
         : h(
-            NButton,
-            {
-              size: 'small',
-              type: 'primary',
-              secondary: true,
-              onClick: () => handleBatchAdd([row.id]),
-            },
-            {
-              default: () => '授权',
-              icon: () => h('i', { class: 'i-line-md:confirm-circle text-14' }),
-            }
-          )
+          NButton,
+          {
+            size: 'small',
+            type: 'primary',
+            secondary: true,
+            onClick: () => handleBatchAdd([row.id]),
+          },
+          {
+            default: () => '授权',
+            icon: () => h('i', { class: 'i-line-md:confirm-circle text-14' }),
+          },
+        )
     },
   },
 ]
@@ -197,8 +199,10 @@ function onChecked(rowKeys) {
 
 function handleBatchAdd(ids = userIds.value) {
   const roleId = route.params.roleId
-  if (!roleId) return $message.error('角色异常，请重新选择角色')
-  if (!ids.length) return $message.error('请先选择用户')
+  if (!roleId)
+    return $message.error('角色异常，请重新选择角色')
+  if (!ids.length)
+    return $message.error('请先选择用户')
   $dialog.confirm({
     content: `确认分配【${route.query.roleName}】？`,
     async confirm() {
@@ -209,8 +213,10 @@ function handleBatchAdd(ids = userIds.value) {
 }
 function handleBatchRemove(ids = userIds.value) {
   const roleId = route.params.roleId
-  if (!roleId) return $message.error('角色异常，请重新选择角色')
-  if (!ids.length) return $message.error('请先选择用户')
+  if (!roleId)
+    return $message.error('角色异常，请重新选择角色')
+  if (!ids.length)
+    return $message.error('请先选择用户')
   $dialog.confirm({
     content: `确认取消分配【${route.query.roleName}】？`,
     async confirm() {

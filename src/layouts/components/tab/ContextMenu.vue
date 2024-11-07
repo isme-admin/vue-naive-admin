@@ -73,8 +73,8 @@ const options = computed(() => [
     label: '关闭右侧',
     key: 'close-right',
     disabled:
-      tabStore.tabs.length <= 1 ||
-      props.currentPath === tabStore.tabs[tabStore.tabs.length - 1].path,
+      tabStore.tabs.length <= 1
+      || props.currentPath === tabStore.tabs[tabStore.tabs.length - 1].path,
     icon: () => h('i', { class: 'i-mdi:arrow-expand-right text-14' }),
   },
 ])
@@ -119,7 +119,8 @@ function handleHideDropdown() {
 
 function handleSelect(key) {
   const actionFn = actionMap.get(key)
-  actionFn && actionFn()
+  if (typeof actionFn === 'function')
+    actionFn()
   handleHideDropdown()
 }
 </script>

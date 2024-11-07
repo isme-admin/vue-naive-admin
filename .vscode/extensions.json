@@ -6,6 +6,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "sdras.vue-vscode-snippets",
-    "mikestead.dotenv"
+    "mikestead.dotenv",
+    "simonhe.common-intellisense"
   ]
 }

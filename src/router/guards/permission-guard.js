@@ -6,8 +6,8 @@
  * Copyright © 2023 Ronnie Zhang(大脸怪) | https://isme.top
  **********************************/
 
-import { useAuthStore, usePermissionStore, useUserStore } from '@/store'
 import api from '@/api'
+import { useAuthStore, usePermissionStore, useUserStore } from '@/store'
 import { getPermissions, getUserInfo } from '@/store/helper'
 
 const WHITE_LIST = ['/login', '/404']
@@ -18,13 +18,16 @@ export function createPermissionGuard(router) {
 
     /** 没有token */
     if (!token) {
-      if (WHITE_LIST.includes(to.path)) return true
+      if (WHITE_LIST.includes(to.path))
+        return true
       return { path: 'login', query: { ...to.query, redirect: to.path } }
     }
 
     // 有token的情况
-    if (to.path === '/login') return { path: '/' }
-    if (WHITE_LIST.includes(to.path)) return true
+    if (to.path === '/login')
+      return { path: '/' }
+    if (WHITE_LIST.includes(to.path))
+      return true
 
     const userStore = useUserStore()
     const permissionStore = usePermissionStore()
@@ -41,7 +44,8 @@ export function createPermissionGuard(router) {
     }
 
     const routes = router.getRoutes()
-    if (routes.find((route) => route.name === to.name)) return true
+    if (routes.find(route => route.name === to.name))
+      return true
 
     // 判断是无权限还是404
     const { data: hasMenu } = await api.validateMenuPath(to.path)

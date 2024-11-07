@@ -13,7 +13,8 @@ export function createPageTitleGuard(router) {
     const pageTitle = to.meta?.title
     if (pageTitle) {
       document.title = `${pageTitle} | ${baseTitle}`
-    } else {
+    }
+    else {
       document.title = baseTitle
     }
   })

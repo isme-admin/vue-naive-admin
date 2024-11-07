@@ -8,7 +8,9 @@
 
 <template>
   <CommonPage show-footer>
-    <n-button type="primary" @click="openModal1">打开第一个弹个窗</n-button>
+    <n-button type="primary" @click="openModal1">
+      打开第一个弹个窗
+    </n-button>
     <MeModal ref="$modal1">
       <n-input v-model:value="text" />
     </MeModal>
@@ -20,8 +22,8 @@
 
 <script setup>
 import { MeModal } from '@/components'
-import { sleep } from '@/utils'
 import { useModal } from '@/composables'
+import { sleep } from '@/utils'
 
 const text = ref('')
 const [$modal1, okLoading1] = useModal()

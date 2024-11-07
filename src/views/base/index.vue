@@ -12,12 +12,24 @@
       <n-card title="按钮 Button">
         <n-space>
           <n-button>Default</n-button>
-          <n-button type="tertiary">Tertiary</n-button>
-          <n-button type="primary">Primary</n-button>
-          <n-button type="info">Info</n-button>
-          <n-button type="success">Success</n-button>
-          <n-button type="warning">Warning</n-button>
-          <n-button type="error">Error</n-button>
+          <n-button type="tertiary">
+            Tertiary
+          </n-button>
+          <n-button type="primary">
+            Primary
+          </n-button>
+          <n-button type="info">
+            Info
+          </n-button>
+          <n-button type="success">
+            Success
+          </n-button>
+          <n-button type="warning">
+            Warning
+          </n-button>
+          <n-button type="error">
+            Error
+          </n-button>
         </n-space>
       </n-card>
 
@@ -46,10 +58,18 @@
     <n-space size="large" mt-30>
       <n-card min-w-340 title="通知 Notification">
         <n-space>
-          <n-button @click="notify('info')">信息</n-button>
-          <n-button @click="notify('success')">成功</n-button>
-          <n-button @click="notify('warning')">警告</n-button>
-          <n-button @click="notify('error')">错误</n-button>
+          <n-button @click="notify('info')">
+            信息
+          </n-button>
+          <n-button @click="notify('success')">
+            成功
+          </n-button>
+          <n-button @click="notify('warning')">
+            警告
+          </n-button>
+          <n-button @click="notify('error')">
+            错误
+          </n-button>
         </n-space>
       </n-card>
 
@@ -66,7 +86,9 @@
             <i v-show="!loading" class="i-mdi:login mr-4" />
             登录
           </n-button>
-          <n-button type="error" @click="handleMultiMessage">多个错误提醒</n-button>
+          <n-button type="error" @click="handleMultiMessage">
+            多个错误提醒
+          </n-button>
         </n-space>
       </n-card>
     </n-space>
@@ -75,6 +97,7 @@
 
 <script setup>
 import { sleep } from '@/utils'
+
 const handleDelete = function () {
   $dialog.confirm({
     content: '确认删除？',

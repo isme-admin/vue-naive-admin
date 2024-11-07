@@ -7,7 +7,7 @@
  **********************************/
 
 const lastDataMap = new Map()
-export const useAliveData = (initData = {}, key) => {
+export function useAliveData(initData = {}, key) {
   key = key ?? useRoute().name
   const lastData = lastDataMap.get(key)
   const aliveData = ref(lastData || { ...initData })
@@ -17,7 +17,7 @@ export const useAliveData = (initData = {}, key) => {
     (v) => {
       lastDataMap.set(key, v)
     },
-    { deep: true }
+    { deep: true },
   )
 
   return {

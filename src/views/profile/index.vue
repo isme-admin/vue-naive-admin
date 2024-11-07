@@ -21,7 +21,9 @@
             </n-button>
           </div>
           <div class="mt-16 flex items-center">
-            <n-button type="primary" ghost @click="avatarModalRef.open()">更改头像</n-button>
+            <n-button type="primary" ghost @click="avatarModalRef.open()">
+              更改头像
+            </n-button>
             <span class="ml-12 opacity-60">
               修改头像只支持在线链接，不提供上传图片功能，如有需要可自行对接！
             </span>
@@ -44,12 +46,18 @@
         :column="1"
         bordered
       >
-        <n-descriptions-item label="昵称">{{ userStore.nickName }}</n-descriptions-item>
+        <n-descriptions-item label="昵称">
+          {{ userStore.nickName }}
+        </n-descriptions-item>
         <n-descriptions-item label="性别">
           {{ genders.find((item) => item.value === userStore.userInfo?.gender)?.label ?? '未知' }}
         </n-descriptions-item>
-        <n-descriptions-item label="地址">{{ userStore.userInfo?.address }}</n-descriptions-item>
-        <n-descriptions-item label="邮箱">{{ userStore.userInfo?.email }}</n-descriptions-item>
+        <n-descriptions-item label="地址">
+          {{ userStore.userInfo?.address }}
+        </n-descriptions-item>
+        <n-descriptions-item label="邮箱">
+          {{ userStore.userInfo?.email }}
+        </n-descriptions-item>
       </n-descriptions>
     </n-card>
 

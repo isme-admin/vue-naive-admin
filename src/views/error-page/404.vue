@@ -17,7 +17,9 @@
         size="large"
       >
         <template #footer>
-          <n-button type="primary" ghost @click="replace('/')">返回首页</n-button>
+          <n-button type="primary" ghost @click="replace('/')">
+            返回首页
+          </n-button>
         </template>
       </n-result>
     </div>

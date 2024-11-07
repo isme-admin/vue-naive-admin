@@ -52,13 +52,14 @@ function handleMenuSelect(key, item) {
         router.push(item.path)
       },
     })
-  } else {
+  }
+  else {
     router.push(item.path)
   }
 }
 </script>
 
-<style lang="scss">
+<style>
 .side-menu:not(.n-menu--collapsed) {
   .n-menu-item-content {
     &::before {

@@ -18,9 +18,11 @@
   >
     <n-card :style="modalOptions.contentStyle" :closable="modalOptions.closable" @close="close()">
       <template #header>
-        <header class="modal-header">{{ modalOptions.title }}</header>
+        <header class="modal-header">
+          {{ modalOptions.title }}
+        </header>
       </template>
-      <slot></slot>
+      <slot />
 
       <!-- 底部按钮 -->
       <template #footer>
@@ -46,6 +48,7 @@
 
 <script setup>
 import { initDrag } from './utils'
+
 const props = defineProps({
   width: {
     type: String,
@@ -101,6 +104,17 @@ const show = ref(false)
 // 声明一个modalOptions变量，用于存储模态框的配置信息
 const modalOptions = ref({})
 
+const okLoading = computed({
+  get() {
+    return !!modalOptions.value?.okLoading
+  },
+  set(v) {
+    if (modalOptions.value) {
+      modalOptions.value.okLoading = v
+    }
+  },
+})
+
 // 打开模态框
 async function open(options = {}) {
   // 将props和options合并赋值给modalOptions
@@ -111,7 +125,7 @@ async function open(options = {}) {
   await nextTick()
   initDrag(
     Array.prototype.at.call(document.querySelectorAll('.modal-header'), -1),
-    Array.prototype.at.call(document.querySelectorAll('.modal-box'), -1)
+    Array.prototype.at.call(document.querySelectorAll('.modal-box'), -1),
   )
 }
 
@@ -130,10 +144,12 @@ async function handleOk(data) {
     // 调用onOk函数，传入data参数
     const res = await modalOptions.value.onOk(data)
     // 如果onOk函数的返回值不为false，则关闭模态框
-    res !== false && close()
-  } catch (error) {
-    okLoading.value = false
+    if (res !== false)
+      close()
+  }
+  catch (error) {
     console.error(error)
+    okLoading.value = false
   }
 }
 
@@ -148,10 +164,12 @@ async function handleCancel(data) {
     const res = await modalOptions.value.onCancel(data)
 
     // 如果onCancel函数的返回值不为false，则关闭模态框
-    res !== false && close()
-  } catch (error) {
-    okLoading.value = false
+    if (res !== false)
+      close()
+  }
+  catch (error) {
     console.error(error)
+    okLoading.value = false
   }
 }
 
@@ -159,20 +177,9 @@ async function onAfterLeave() {
   await nextTick()
   initDrag(
     Array.prototype.at.call(document.querySelectorAll('.modal-header'), -1),
-    Array.prototype.at.call(document.querySelectorAll('.modal-box'), -1)
+    Array.prototype.at.call(document.querySelectorAll('.modal-box'), -1),
   )
 }
-
-const okLoading = computed({
-  get() {
-    return !!modalOptions.value?.okLoading
-  },
-  set(v) {
-    if (modalOptions.value) {
-      modalOptions.value.okLoading = v
-    }
-  },
-})
 
 // 定义一个defineExpose函数，用于暴露open、close、handleOk、handleCancel函数
 defineExpose({

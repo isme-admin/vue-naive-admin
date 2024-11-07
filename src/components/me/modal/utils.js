@@ -15,7 +15,8 @@ function getCss(element, key) {
 
 // 初始化拖拽
 export function initDrag(bar, box) {
-  if (!bar || !box) return
+  if (!bar || !box)
+    return
   const params = {
     left: 0,
     top: 0,
@@ -50,7 +51,8 @@ export function initDrag(bar, box) {
     }
   }
   document.onmousemove = function (e) {
-    if (e.target !== bar && !params.flag) return
+    if (e.target !== bar && !params.flag)
+      return
 
     e.preventDefault() // 阻止默认事件
     // 如果拖拽标志为true
@@ -60,11 +62,11 @@ export function initDrag(bar, box) {
       const disX = nowX - params.currentX // 鼠标移动的X距离
       const disY = nowY - params.currentY // 鼠标移动的Y距离
 
-      let left = parseInt(params.left) + disX // 盒子元素的新left值
-      let top = parseInt(params.top) + disY // 盒子元素的新top值
+      const left = Number.parseInt(params.left) + disX // 盒子元素的新left值
+      const top = Number.parseInt(params.top) + disY // 盒子元素的新top值
 
-      box.style.left = left + 'px'
-      box.style.top = top + 'px'
+      box.style.left = `${left}px`
+      box.style.top = `${top}px`
     }
   }
 }

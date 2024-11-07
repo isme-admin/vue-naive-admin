@@ -94,8 +94,8 @@
 
 <script setup>
 import { MeModal } from '@/components'
-import { useAppStore } from '@/store'
 import { useModal } from '@/composables'
+import { useAppStore } from '@/store'
 
 const appStore = useAppStore()
 const [modalRef] = useModal()

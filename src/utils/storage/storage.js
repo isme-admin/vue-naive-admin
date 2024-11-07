@@ -35,7 +35,8 @@ class Storage {
 
   getItem(key, def = null) {
     const val = this.storage.getItem(this.getKey(key))
-    if (!val) return def
+    if (!val)
+      return def
     try {
       const data = JSON.parse(val)
       const { value, time, expire } = data
@@ -44,7 +45,9 @@ class Storage {
       }
       this.remove(key)
       return def
-    } catch (error) {
+    }
+    catch (error) {
+      console.error(error)
       this.remove(key)
       return def
     }

@@ -6,10 +6,10 @@
  * Copyright © 2023 Ronnie Zhang(大脸怪) | https://isme.top
  **********************************/
 
-import { defineStore } from 'pinia'
-import { useDark } from '@vueuse/core'
-import { generate, getRgbStr } from '@arco-design/color'
 import { defaultLayout, defaultPrimaryColor, naiveThemeOverrides } from '@/settings'
+import { generate, getRgbStr } from '@arco-design/color'
+import { useDark } from '@vueuse/core'
+import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({

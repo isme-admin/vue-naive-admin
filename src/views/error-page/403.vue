@@ -20,7 +20,9 @@
           <n-button v-if="back" type="primary" ghost @click="router.replace(back)">
             返回上一页
           </n-button>
-          <n-button type="primary" class="ml-20" @click="router.replace('/')">返回首页</n-button>
+          <n-button type="primary" class="ml-20" @click="router.replace('/')">
+            返回首页
+          </n-button>
         </template>
       </n-result>
     </div>
@@ -35,7 +37,8 @@ const back = history.state.back
 
 if (history.state.from === 'permission-guard') {
   delete history.state.from
-} else if (route.query.path) {
+}
+else if (route.query.path) {
   router.replace(route.query.path)
 }
 </script>

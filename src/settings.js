@@ -10,6 +10,9 @@ export const defaultLayout = 'normal'
 
 export const defaultPrimaryColor = '#316C72'
 
+// 控制 LayoutSetting 组件是否可见
+export const layoutSettingVisible = true
+
 export const naiveThemeOverrides = {
   common: {
     primaryColor: '#316C72FF',
@@ -33,7 +36,7 @@ export const basePermissions = [
         code: 'ShowDocs',
         name: '项目文档',
         type: 'MENU',
-        path: 'https://docs.isme.top/web/#/624306705/188522224',
+        path: 'https://isme.top',
         icon: 'i-me:docs',
         order: 1,
         enable: true,

@@ -11,7 +11,7 @@
     <div class="flex">
       <n-spin size="small" :show="treeLoading">
         <MenuTree
-          v-model:currentMenu="currentMenu"
+          v-model:current-menu="currentMenu"
           class="w-320 shrink-0"
           :tree-data="treeData"
           @refresh="initData"
@@ -21,15 +21,21 @@
       <div class="ml-40 w-0 flex-1">
         <template v-if="currentMenu">
           <div class="flex justify-between">
-            <h3 class="mb-12">{{ currentMenu.name }}</h3>
-            <n-button size="small" type="primary" @click="handleEdit(currentMenu)">
+            <h3 class="mb-12">
+              {{ currentMenu.name }}
+            </h3>
+            <NButton size="small" type="primary" @click="handleEdit(currentMenu)">
               <i class="i-material-symbols:edit-outline mr-4 text-14" />
               编辑
-            </n-button>
+            </NButton>
           </div>
           <n-descriptions label-placement="left" bordered :column="2">
-            <n-descriptions-item label="编码">{{ currentMenu.code }}</n-descriptions-item>
-            <n-descriptions-item label="名称">{{ currentMenu.name }}</n-descriptions-item>
+            <n-descriptions-item label="编码">
+              {{ currentMenu.code }}
+            </n-descriptions-item>
+            <n-descriptions-item label="名称">
+              {{ currentMenu.name }}
+            </n-descriptions-item>
             <n-descriptions-item label="路由地址">
               {{ currentMenu.path ?? '--' }}
             </n-descriptions-item>
@@ -61,11 +67,13 @@
           </n-descriptions>
 
           <div class="mt-32 flex justify-between">
-            <h3 class="mb-12">按钮</h3>
-            <n-button size="small" type="primary" @click="handleAddBtn">
+            <h3 class="mb-12">
+              按钮
+            </h3>
+            <NButton size="small" type="primary" @click="handleAddBtn">
               <i class="i-fe:plus mr-4 text-14" />
               新增
-            </n-button>
+            </NButton>
           </div>
 
           <MeCrud
@@ -74,7 +82,7 @@
             :scroll-x="-1"
             :get-data="api.getButtons"
             :query-items="{ parentId: currentMenu.id }"
-          ></MeCrud>
+          />
         </template>
         <n-empty v-else class="h-450 f-c-c" size="large" description="请选择菜单查看详情" />
       </div>
@@ -84,14 +92,16 @@
 </template>
 
 <script setup>
+import { MeCrud } from '@/components'
 import { NButton, NSwitch } from 'naive-ui'
+import api from './api'
 import MenuTree from './components/MenuTree.vue'
 import ResAddOrEdit from './components/ResAddOrEdit.vue'
-import { MeCrud } from '@/components'
-import api from './api'
 
 const treeData = ref([])
 const treeLoading = ref(false)
+const $table = ref(null)
+const currentMenu = ref(null)
 async function initData(data) {
   if (data?.type === 'BUTTON') {
     $table.value.handleSearch()
@@ -102,17 +112,16 @@ async function initData(data) {
   treeData.value = res?.data || []
   treeLoading.value = false
 
-  if (data) currentMenu.value = data
+  if (data)
+    currentMenu.value = data
 }
 initData()
-
-const currentMenu = ref(null)
 
 const modalRef = ref(null)
 function handleEdit(item = {}) {
   modalRef.value?.handleOpen({
     action: 'edit',
-    title: '编辑菜单 - ' + item.name,
+    title: `编辑菜单 - ${item.name}`,
     row: item,
     okText: '保存',
   })
@@ -124,7 +133,7 @@ const btnsColumns = [
   {
     title: '状态',
     key: 'enable',
-    render: (row) =>
+    render: row =>
       h(
         NSwitch,
         {
@@ -137,7 +146,7 @@ const btnsColumns = [
         {
           checked: () => '启用',
           unchecked: () => '停用',
-        }
+        },
       ),
   },
   {
@@ -159,7 +168,7 @@ const btnsColumns = [
           {
             default: () => '编辑',
             icon: () => h('i', { class: 'i-material-symbols:edit-outline text-14' }),
-          }
+          },
         ),
 
         h(
@@ -173,20 +182,20 @@ const btnsColumns = [
           {
             default: () => '删除',
             icon: () => h('i', { class: 'i-material-symbols:delete-outline text-14' }),
-          }
+          },
         ),
       ]
     },
   },
 ]
-const $table = ref(null)
 
 watch(
   () => currentMenu.value,
   async (v) => {
     await nextTick()
-    if (v) $table.value.handleSearch()
-  }
+    if (v)
+      $table.value.handleSearch()
+  },
 )
 
 function handleAddBtn() {
@@ -201,7 +210,7 @@ function handleAddBtn() {
 function handleEditBtn(row) {
   modalRef.value?.handleOpen({
     action: 'edit',
-    title: '编辑按钮 - ' + row.name,
+    title: `编辑按钮 - ${row.name}`,
     row,
     okText: '保存',
   })
@@ -220,7 +229,9 @@ function handleDeleteBtn(id) {
         $message.success('删除成功')
         $table.value.handleSearch()
         d.loading = false
-      } catch (error) {
+      }
+      catch (error) {
+        console.error(error)
         d.loading = false
       }
     },
@@ -236,7 +247,9 @@ async function handleEnable(item) {
     $message.success('操作成功')
     $table.value?.handleSearch()
     item.enableLoading = false
-  } catch (error) {
+  }
+  catch (error) {
+    console.error(error)
     item.enableLoading = false
   }
 }

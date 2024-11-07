@@ -27,10 +27,10 @@
 </template>
 
 <script setup>
-import { useAppStore } from '@/store'
 import { AppTab } from '@/layouts/components'
-import SideBar from './sidebar/index.vue'
+import { useAppStore } from '@/store'
 import AppHeader from './header/index.vue'
+import SideBar from './sidebar/index.vue'
 
 const appStore = useAppStore()
 </script>
