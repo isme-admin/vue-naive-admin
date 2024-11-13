@@ -39,10 +39,11 @@
       <slot />
     </AppCard>
 
-    <slot v-if="$slots.footer" name="footer" />
-    <AppCard v-else-if="showFooter" class="flex-shrink-0 py-12">
-      <TheFooter />
-    </AppCard>
+    <slot name="footer">
+      <AppCard v-if="showFooter" class="flex-shrink-0 py-12">
+        <TheFooter />
+      </AppCard>
+    </slot>
   </main>
 </template>
 

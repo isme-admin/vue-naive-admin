@@ -26,21 +26,22 @@
 
       <!-- 底部按钮 -->
       <template #footer>
-        <slot v-if="$slots.footer" name="footer" />
-        <footer v-else-if="modalOptions.showFooter" class="flex justify-end">
-          <n-button v-if="modalOptions.showCancel" @click="handleCancel()">
-            {{ modalOptions.cancelText }}
-          </n-button>
-          <n-button
-            v-if="modalOptions.showOk"
-            type="primary"
-            :loading="modalOptions.okLoading"
-            class="ml-20"
-            @click="handleOk()"
-          >
-            {{ modalOptions.okText }}
-          </n-button>
-        </footer>
+        <slot name="footer">
+          <footer v-if="modalOptions.showFooter" class="flex justify-end">
+            <n-button v-if="modalOptions.showCancel" @click="handleCancel()">
+              {{ modalOptions.cancelText }}
+            </n-button>
+            <n-button
+              v-if="modalOptions.showOk"
+              type="primary"
+              :loading="modalOptions.okLoading"
+              class="ml-20"
+              @click="handleOk()"
+            >
+              {{ modalOptions.okText }}
+            </n-button>
+          </footer>
+        </slot>
       </template>
     </n-card>
   </n-modal>
