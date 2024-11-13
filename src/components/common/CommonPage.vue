@@ -16,16 +16,18 @@
       <slot v-if="$slots.header" name="header" />
       <template v-else>
         <div class="flex items-center">
-          <slot v-if="$slots['title-prefix']" name="title-prefix" />
-          <template v-else-if="back">
-            <div
-              class="mr-16 flex cursor-pointer items-center text-16 opacity-60 transition-all-300 hover:opacity-40"
-              @click="router.back()"
-            >
-              <i class="i-material-symbols:arrow-left-alt" />
-              <span class="ml-4">返回</span>
-            </div>
-          </template>
+          <slot name="title-prefix">
+            <template v-if="back">
+              <div
+                class="mr-16 flex cursor-pointer items-center text-16 opacity-60 transition-all-300 hover:opacity-40"
+                @click="router.back()"
+              >
+                <i class="i-material-symbols:arrow-left-alt" />
+                <span class="ml-4">返回</span>
+              </div>
+            </template>
+          </slot>
+
           <div class="mr-12 h-16 w-4 rounded-l-2 bg-primary" />
           <h2 class="font-normal">
             {{ title ?? route.meta?.title }}
