@@ -102,11 +102,10 @@ const columns = [
         src: avatar,
       }),
   },
-  { title: '用户名', key: 'username', width: 150, ellipsis: { tooltip: true } },
+  { title: '用户名', key: 'username', ellipsis: { tooltip: true } },
   {
     title: '角色',
     key: 'roles',
-    width: 200,
     ellipsis: { tooltip: true },
     render: ({ roles }) => {
       if (roles?.length) {
@@ -157,7 +156,7 @@ const columns = [
   {
     title: '操作',
     key: 'actions',
-    width: 100,
+    width: 120,
     align: 'right',
     fixed: 'right',
     hideInExcel: true,
