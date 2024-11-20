@@ -23,12 +23,12 @@ const show = shallowRef(false)
 const config = {
   backgroundOpacity: 0.8,
   titleStyle: {
-    textAlign: 'center',
-    fontSize: '19px',
+    textAlign: 'left',
+    fontSize: '18px',
   },
   contentStyle: {
-    textAlign: 'center',
-    fontSize: '15px',
+    textAlign: 'left',
+    fontSize: '14px',
   },
   tips: [
     {
