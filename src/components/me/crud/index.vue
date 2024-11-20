@@ -7,38 +7,59 @@
  --------------------------------->
 
 <template>
-  <AppCard v-if="$slots.default" bordered bg="#fafafc dark:black" class="mb-30 min-h-60 rounded-4">
-    <form class="flex justify-between p-16" @submit.prevent="handleSearch()">
-      <n-scrollbar x-scrollable>
-        <n-space :wrap="!expand || isExpanded" :size="[32, 16]" class="p-10">
-          <slot />
-        </n-space>
-      </n-scrollbar>
-      <div class="flex-shrink-0 p-10">
-        <n-button ghost type="primary" @click="handleReset">
-          <i class="i-fe:rotate-ccw mr-4" />
-          重置
-        </n-button>
-        <n-button attr-type="submit" class="ml-20" type="primary">
-          <i class="i-fe:search mr-4" />
-          搜索
-        </n-button>
+  <div :class="computedHeight === true ? 'h-100%' : ''">
+    <div id="search_main">
+      <AppCard v-if="$slots.default" bordered bg="#fafafc dark:black" class="mb-30 min-h-60 rounded-4">
+        <form class="flex justify-between p-16" @submit.prevent="handleSearch()">
+          <n-scrollbar x-scrollable>
+            <n-space :wrap="!expand || isExpanded" :size="[32, 16]" class="p-10">
+              <slot />
+            </n-space>
+          </n-scrollbar>
+          <div class="flex-shrink-0 p-10">
+            <n-button ghost type="primary" @click="handleReset">
+              <i class="i-fe:rotate-ccw mr-4" />
+              重置
+            </n-button>
+            <n-button attr-type="submit" class="ml-20" type="primary">
+              <i class="i-fe:search mr-4" />
+              搜索
+            </n-button>
 
-        <template v-if="expand">
-          <n-button v-if="!isExpanded" type="primary" text @click="toggleExpand">
-            <i class="i-fe:chevrons-down ml-4" />
-            展开
-          </n-button>
-          <n-button v-else text type="primary" @click="toggleExpand">
-            <i class="i-fe:chevrons-up ml-4" />
-            收起
-          </n-button>
-        </template>
-      </div>
-    </form>
-  </AppCard>
+            <template v-if="expand">
+              <n-button v-if="!isExpanded" type="primary" text @click="toggleExpand">
+                <i class="i-fe:chevrons-down ml-4" />
+                展开
+              </n-button>
+              <n-button v-else text type="primary" @click="toggleExpand">
+                <i class="i-fe:chevrons-up ml-4" />
+                收起
+              </n-button>
+            </template>
+          </div>
+        </form>
+      </AppCard>
+    </div>
+    <MeVxeGrid
+      :remote="remote"
+      :loading="loading"
+      :scroll-x="scrollX"
+      :columns="columns"
+      :export-config="{ filename: exportName, modes: ['all', 'current'] }"
+      :toolbar-config="toolbarConfig"
+      :data="tableData"
+      :auto-height="computedHeight === true ? autoHeight : computedHeight"
+      :row-key="rowKey"
+      :is-computed-height="computedHeight === true"
+      :show-check="showCheck"
+      :pagination="isPagination ? pagination : false"
+      :remote-method="remoteMethod"
+      :export-method="exportMethod"
+      @update:checked-row-keys="onChecked"
+      @update:page="onPageChange"
+    />
 
-  <NDataTable
+  <!-- <NDataTable
     :remote="remote"
     :loading="loading"
     :scroll-x="scrollX"
@@ -48,14 +69,39 @@
     :pagination="isPagination ? pagination : false"
     @update:checked-row-keys="onChecked"
     @update:page="onPageChange"
-  />
+  /> -->
+  </div>
 </template>
 
 <script setup>
-import { NDataTable } from 'naive-ui'
 import { utils, writeFile } from 'xlsx'
 
 const props = defineProps({
+  /**
+   * 是否自动计算高度，适用只有search和table
+   */
+  computedHeight: {
+    type: [Boolean, Number],
+    default: () => true,
+  },
+  showCheck: {
+    type: Boolean,
+    default: () => false,
+  },
+  toolbarConfig: {
+    type: Object,
+    default: () => ({
+      export: true,
+      zoom: true,
+    }),
+  },
+  /**
+   * @remote 导出数据表格名称
+   */
+  exportName: {
+    type: String,
+    default: '导出数据',
+  },
   /**
    * @remote true: 后端分页  false： 前端分页
    */
@@ -105,8 +151,18 @@ const props = defineProps({
   /** 是否支持展开 */
   expand: Boolean,
 })
-
 const emit = defineEmits(['update:queryItems', 'onChecked', 'onDataChange'])
+
+const autoHeight = ref(0)
+
+window.onresize = () => {
+  autoHeight.value = document.getElementById('search_main').clientHeight + 24
+}
+
+onMounted(() => {
+  autoHeight.value = document.getElementById('search_main').clientHeight + 24
+})
+
 const loading = ref(false)
 const initQuery = { ...props.queryItems }
 const tableData = ref([])
@@ -123,6 +179,22 @@ const isExpanded = ref(false)
 
 function toggleExpand() {
   isExpanded.value = !isExpanded.value
+}
+
+async function exportMethod() {
+  const { data } = await props.getData({
+    pageNo: 1,
+    pageSize: 2000,
+    ...props.queryItems,
+  })
+  return data
+}
+
+function remoteMethod(page, pageSize) {
+  pagination.page = page
+  pagination.pageSize = pageSize
+
+  handleQuery()
 }
 
 async function handleQuery() {
@@ -143,6 +215,7 @@ async function handleQuery() {
       // 如果当前页数据为空，且总条数不为0，则返回上一页数据
       onPageChange(pagination.page - 1)
     }
+    return data
   }
   catch (error) {
     console.error(error)
@@ -180,9 +253,7 @@ function onPageChange(currentPage) {
   }
 }
 function onChecked(rowKeys) {
-  if (props.columns.some(item => item.type === 'selection')) {
-    emit('onChecked', rowKeys)
-  }
+  emit('onChecked', rowKeys)
 }
 function handleExport(columns = props.columns, data = tableData.value) {
   if (!data?.length)

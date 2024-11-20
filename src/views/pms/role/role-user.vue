@@ -37,6 +37,7 @@
       :scroll-x="1200"
       :columns="columns"
       :get-data="api.getAllUsers"
+      :show-check="true"
       @on-checked="onChecked"
     >
       <MeQueryItem label="用户名" :label-width="50">
@@ -90,7 +91,7 @@ const genders = [
 ]
 
 const columns = [
-  { type: 'selection', fixed: 'left' },
+  // { type: 'selection', fixed: 'left' },
   {
     title: '头像',
     key: 'avatar',
