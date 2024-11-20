@@ -25,6 +25,7 @@
     "vue": "^3.5.12",
     "vue-echarts": "^7.0.3",
     "vue-router": "^4.4.5",
+    "vue3-intro-step": "^1.0.5",
     "vxe-pc-ui": "4.2.5",
     "vxe-table": "4.8.13",
     "vxe-table-plugin-export-xlsx": "^4.0.4",

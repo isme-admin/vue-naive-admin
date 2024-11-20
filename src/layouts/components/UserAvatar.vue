@@ -8,7 +8,7 @@
 
 <template>
   <n-dropdown :options="options" @select="handleSelect">
-    <div class="flex cursor-pointer items-center">
+    <div id="user-dropdown" class="flex cursor-pointer items-center">
       <n-avatar round :size="36" :src="userStore.avatar" />
       <div v-if="userStore.userInfo" class="ml-12 flex-col flex-shrink-0 items-center">
         <span class="text-14">{{ userStore.nickName ?? userStore.username }}</span>

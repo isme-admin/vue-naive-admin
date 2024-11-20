@@ -47,6 +47,9 @@ importers:
       vue-router:
         specifier: ^4.4.5
         version: 4.4.5(vue@3.5.12(typescript@5.5.4))
+      vue3-intro-step:
+        specifier: ^1.0.5
+        version: 1.0.5(vue@3.5.12(typescript@5.5.4))
       vxe-pc-ui:
         specifier: 4.2.5
         version: 4.2.5(vue@3.5.12(typescript@5.5.4))
@@ -3556,6 +3559,12 @@ packages:
     resolution: {integrity: sha512-4fKZygS8cH1yCyuabAXGUAsyi1b2/o/OKgu/RUb+znIYOxPRxdkytJEx+0wGcpBE1pX6vUgh5jwWOKRGvuA/7Q==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue3-intro-step@1.0.5:
+    resolution: {integrity: sha512-MV+Y2VZCRVWGFgmwxaAFq0opANe7Yj/xEyL5Zox2z+8JNbU1Y6vkbGivT+yKbqc4o+Q/ui0z45zizI7GCouDmw==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      vue: ^3.0.5
 
   vue@3.5.12:
     resolution: {integrity: sha512-CLVZtXtn2ItBIi/zHZ0Sg1Xkb7+PU32bJJ8Bmy7ts3jxXTcbfsEfBivFYYWz1Hur+lalqGAh65Coin0r+HRUfg==}
@@ -7561,6 +7570,10 @@ snapshots:
   vue-router@4.4.5(vue@3.5.12(typescript@5.5.4)):
     dependencies:
       '@vue/devtools-api': 6.6.4
+      vue: 3.5.12(typescript@5.5.4)
+
+  vue3-intro-step@1.0.5(vue@3.5.12(typescript@5.5.4)):
+    dependencies:
       vue: 3.5.12(typescript@5.5.4)
 
   vue@3.5.12(typescript@5.5.4):

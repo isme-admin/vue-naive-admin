@@ -1,5 +1,6 @@
 <template>
   <i
+    id="toggleTheme"
     class="mr-16 cursor-pointer"
     :class="isDark ? 'i-fe:moon' : 'i-fe:sun'"
     @click="toggleDark"

@@ -7,7 +7,7 @@
  --------------------------------->
 
 <template>
-  <div>
+  <div id="top-tab">
     <n-tabs
       :value="tabStore.activeTab"
       :closable="tabStore.tabs.length > 1"
