@@ -1,5 +1,6 @@
 <template>
   <i
+    id="fullscreen"
     class="mr-16 cursor-pointer"
     :class="isFullscreen ? 'i-fe:minimize' : 'i-fe:maximize'"
     @click="toggle"

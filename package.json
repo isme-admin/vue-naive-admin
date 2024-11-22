@@ -48,7 +48,8 @@
     "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.9",
     "vite-plugin-router-warn": "^1.0.0",
-    "vite-plugin-vue-devtools": "^7.5.2"
+    "vite-plugin-vue-devtools": "^7.5.2",
+    "vue3-intro-step": "^1.0.5"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

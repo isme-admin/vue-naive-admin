@@ -8,6 +8,7 @@
 
 <template>
   <div
+    id="menu-collapse"
     class="f-c-c cursor-pointer rounded-4 p-6 text-22 transition-all-300 auto-bg-hover"
     @click="appStore.switchCollapsed"
   >

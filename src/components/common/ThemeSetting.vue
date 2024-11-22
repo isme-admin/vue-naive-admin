@@ -2,6 +2,7 @@
   <n-tooltip trigger="hover">
     <template #trigger>
       <n-color-picker
+        id="theme-setting"
         class="mr-16 h-32 w-32"
         :value="appStore.primaryColor"
         :swatches="primaryColors"

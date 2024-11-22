@@ -1,3 +1,4 @@
+export { default as BeginnerGuide } from './BeginnerGuide.vue'
 export { default as BreadCrumb } from './BreadCrumb.vue'
 export { default as Fullscreen } from './Fullscreen.vue'
 export { default as MenuCollapse } from './MenuCollapse.vue'

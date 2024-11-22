@@ -10,7 +10,7 @@
   <div>
     <n-tooltip trigger="hover" placement="left">
       <template #trigger>
-        <div class="f-c-c rounded-4 bg-primary p-8" @click="modalRef.open()">
+        <div id="layout-setting" class="f-c-c rounded-4 bg-primary p-8" @click="modalRef.open()">
           <i class="i-fe:settings cursor-pointer bg-white text-20" />
         </div>
       </template>
