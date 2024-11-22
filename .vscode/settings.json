@@ -20,5 +20,12 @@
     "json",
     "jsonc"
   ],
-  "common-intellisense.ui": ["naiveUi2"]
+  "common-intellisense.ui": [
+    "naiveUi2"
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#233212",
+    "titleBar.activeBackground": "#314619",
+    "titleBar.activeForeground": "#F9FCF6"
+  }
 }

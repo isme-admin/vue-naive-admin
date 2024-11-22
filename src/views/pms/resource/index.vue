@@ -81,6 +81,7 @@
             :columns="btnsColumns"
             :scroll-x="-1"
             :get-data="api.getButtons"
+            :computed-height="300"
             :query-items="{ parentId: currentMenu.id }"
           />
         </template>

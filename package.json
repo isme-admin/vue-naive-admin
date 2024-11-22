@@ -17,6 +17,7 @@
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "echarts": "^5.5.1",
+    "exceljs": "^4.4.0",
     "lodash-es": "^4.17.21",
     "naive-ui": "^2.40.1",
     "pinia": "^2.2.4",
@@ -24,6 +25,9 @@
     "vue": "^3.5.12",
     "vue-echarts": "^7.0.3",
     "vue-router": "^4.4.5",
+    "vxe-pc-ui": "4.2.5",
+    "vxe-table": "4.8.13",
+    "vxe-table-plugin-export-xlsx": "^4.0.4",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

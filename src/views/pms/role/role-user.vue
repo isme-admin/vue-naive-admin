@@ -37,6 +37,7 @@
       :scroll-x="1200"
       :columns="columns"
       :get-data="api.getAllUsers"
+      :show-check="true"
       @on-checked="onChecked"
     >
       <MeQueryItem label="用户名" :label-width="50">
@@ -90,7 +91,7 @@ const genders = [
 ]
 
 const columns = [
-  { type: 'selection', fixed: 'left' },
+  // { type: 'selection', fixed: 'left' },
   {
     title: '头像',
     key: 'avatar',
@@ -101,11 +102,10 @@ const columns = [
         src: avatar,
       }),
   },
-  { title: '用户名', key: 'username', width: 150, ellipsis: { tooltip: true } },
+  { title: '用户名', key: 'username', ellipsis: { tooltip: true } },
   {
     title: '角色',
     key: 'roles',
-    width: 200,
     ellipsis: { tooltip: true },
     render: ({ roles }) => {
       if (roles?.length) {
@@ -156,7 +156,7 @@ const columns = [
   {
     title: '操作',
     key: 'actions',
-    width: 100,
+    width: 120,
     align: 'right',
     fixed: 'right',
     hideInExcel: true,

@@ -10,6 +10,7 @@ import { defaultLayout, defaultPrimaryColor, naiveThemeOverrides } from '@/setti
 import { generate, getRgbStr } from '@arco-design/color'
 import { useDark } from '@vueuse/core'
 import { defineStore } from 'pinia'
+import { VxeUI } from 'vxe-pc-ui'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -40,6 +41,18 @@ export const useAppStore = defineStore('app', {
         list: true,
         dark: isDark,
       })
+      VxeUI.setTheme(isDark ? 'dark' : 'light')
+      if (isDark) {
+        document.body.style.setProperty('--vxe-ui-font-color', '#fff')
+      }
+      else {
+        document.body.style.setProperty('--vxe-ui-font-color', '#000')
+      }
+
+      document.body.style.setProperty('--vxe-ui-font-primary-color', color)
+      document.body.style.setProperty('--vxe-ui-font-primary-lighten-color', color)
+      document.body.style.setProperty('--vxe-ui-font-primary-darken-color', color)
+
       document.body.style.setProperty('--primary-color', getRgbStr(colors[5]))
       this.naiveThemeOverrides.common = Object.assign(this.naiveThemeOverrides.common || {}, {
         primaryColor: colors[5],
