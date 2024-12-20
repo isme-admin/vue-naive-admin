@@ -50,7 +50,7 @@ export const useAppStore = defineStore('app', {
     },
   },
   persist: {
-    paths: ['collapsed', 'layout', 'primaryColor', 'naiveThemeOverrides'],
+    pick: ['collapsed', 'layout', 'primaryColor', 'naiveThemeOverrides'],
     storage: sessionStorage,
   },
 })

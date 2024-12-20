@@ -43,6 +43,11 @@ export function createPermissionGuard(router) {
       return { ...to, replace: true }
     }
 
+    router.addRoute({
+      path: '/:catchAll(.*)',
+      redirect: '/404',
+    })
+
     const routes = router.getRoutes()
     if (routes.find(route => route.name === to.name))
       return true

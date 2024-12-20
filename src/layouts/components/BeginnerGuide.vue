@@ -12,16 +12,15 @@
   <Vue3IntroStep
     ref="myIntroStep"
     v-model:show="show"
-    class="beginner-guide"
     :config="config"
   >
     <template #prev="{ tipItem, index }">
-      <NButton type="primary" color="#fff" text-color="#fff" ghost round size="small" @click="prev(tipItem, index)">
+      <NButton class="mr-12" type="primary" color="#fff" text-color="#fff" ghost round size="small" @click="prev(tipItem, index)">
         上一步
       </NButton>
     </template>
     <template #next="{ tipItem }">
-      <NButton type="primary" color="#fff" text-color="#fff" ghost round size="small" @click="next(tipItem)">
+      <NButton class="mr-12" type="primary" color="#fff" text-color="#fff" ghost round size="small" @click="next(tipItem)">
         下一步
       </NButton>
     </template>
@@ -128,11 +127,3 @@ function prev() {
   myIntroStep.value.prev()
 }
 </script>
-
-<style lang="scss" scoped>
-.beginner-guide {
-  .n-button {
-    margin-right: 12px;
-  }
-}
-</style>
