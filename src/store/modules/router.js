@@ -16,6 +16,8 @@ export const useRouterStore = defineStore('router', () => {
     accessRoutes.forEach((item) => {
       router.hasRoute(item.name) && router.removeRoute(item.name)
     })
+
+    router.removeRoute('catchAll')
   }
 
   return {

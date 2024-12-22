@@ -44,6 +44,7 @@ export function createPermissionGuard(router) {
     }
 
     router.addRoute({
+      name: 'catchAll',
       path: '/:catchAll(.*)',
       redirect: '/404',
     })
